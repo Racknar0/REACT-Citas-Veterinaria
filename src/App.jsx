@@ -9,18 +9,17 @@ function App() {
 
   const [pacientes, setPacientes] = useState([])
 
-  const tomaUnValor = (valor) => {
-      console.log(valor);
-  }
+
 
   return (
     <div className='container mx-auto mt-20'>
-      <Header 
-        tomaUnValor={tomaUnValor}
-      />
+      <Header />
 
       <div className='mt-12 md:flex'>
-        <Formulario />
+        <Formulario 
+        pacientes={pacientes}
+        setPacientes={setPacientes}
+        />
         <ListadoPacientes />
       </div>
     </div>

@@ -1,7 +1,8 @@
 import React from 'react';
 import { useState, useEffect } from 'react';
+import Error from './Error';
 
-const Formulario = () => {
+const Formulario = ( { pacientes, setPacientes } ) => {
     const [nombre, setNombre] = useState('');
     const [propietario, setPropietario] = useState('');
     const [email, setEmail] = useState('');
@@ -23,7 +24,24 @@ const Formulario = () => {
         }
         setError(false);
 
+        //Objeto de pacientes
 
+        const objetoPaciente = {
+            nombre,
+            propietario,
+            email,
+            fecha,
+            sintomas
+        }
+
+        setPacientes([...pacientes, objetoPaciente])
+
+        //Resetear el formulario
+        setNombre('');
+        setPropietario('');
+        setEmail('');
+        setFecha('');
+        setSintomas('');
     };
 
     return (
@@ -37,7 +55,7 @@ const Formulario = () => {
             </p>
 
             <form onSubmit={handleSubmit} className="bg-white shadow-md rounded-xl py-10 px-5 mb-10">
-                {error && (<div className='bg-red-800 text-white uppercase text-center p-3 font-bold mb-3 rounded-lg'><p>Todos los campos son Obligatorios</p></div>)}
+                {error &&  <Error mensaje="Todos los campos son obligatorios" />}
                 <div className="mb-5">
                     <label
                         className="block text-gray-700 uppercase font-bold"
