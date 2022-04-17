@@ -1,7 +1,7 @@
 
 
 const Paciente = ({paciente}) => {
-  console.log(paciente);
+
   const {nombre, propietario, email, fecha, sintomas} = paciente;
 
   return (
