@@ -1,8 +1,7 @@
-import React from 'react';
 import { useState, useEffect } from 'react';
 import Error from './Error';
 
-const Formulario = ( { pacientes, setPacientes } ) => {
+const Formulario = ( { pacientes, setPacientes, paciente, setPaciente } ) => {
     const [nombre, setNombre] = useState('');
     const [propietario, setPropietario] = useState('');
     const [email, setEmail] = useState('');
@@ -10,6 +9,19 @@ const Formulario = ( { pacientes, setPacientes } ) => {
     const [sintomas, setSintomas] = useState('');
 
     const [error, setError] = useState(false);
+
+
+    useEffect(() => {
+       if( Object.keys(paciente).length > 0 ) {
+            setNombre(paciente.nombre);
+            setPropietario(paciente.propietario);
+            setEmail(paciente.email);
+            setFecha(paciente.fecha);
+            setSintomas(paciente.sintomas);
+       }
+    }, [paciente])
+
+    
 
     const generarId = () => {
         const random = Math.random().toString(36).substring(2);
@@ -24,7 +36,6 @@ const Formulario = ( { pacientes, setPacientes } ) => {
 
         //validar formulario
         if([nombre, propietario, email, fecha, sintomas].includes('')){
-            console.log('Todos los campos son obligatorios');
             setError(true);
             return;
         }
@@ -38,11 +49,24 @@ const Formulario = ( { pacientes, setPacientes } ) => {
             email,
             fecha,
             sintomas,
-            id: generarId()
         }
 
+        if(paciente.id){
+            //Editando registro
+            objetoPaciente.id = paciente.id;
 
-        setPacientes([...pacientes, objetoPaciente])
+            const pacientesActualizados = pacientes.map( pacienteState => 
+                pacienteState.id === paciente.id ? objetoPaciente : pacienteState
+            );
+            setPacientes(pacientesActualizados);
+            setPaciente({});
+
+        }else{
+            objetoPaciente.id = generarId();
+            //Nuevo registro
+            setPacientes([...pacientes, objetoPaciente])
+
+        }
 
         //Resetear el formulario
         setNombre('');
@@ -154,7 +178,7 @@ const Formulario = ( { pacientes, setPacientes } ) => {
                 <input
                     type="submit"
                     className="bg-indigo-600 w-full rounded p-3 text-white uppercase font-bold hover:bg-indigo-700 cursor-pointer transition-all"
-                    value={'agregar paciente'}
+                    value={ paciente.id ? 'Editar Paciente' : 'Agregar Paciente' }
                 />
             </form>
         </div>
