@@ -2,7 +2,7 @@ import { useState, useEffect } from 'react';
 import Error from './Error';
 
 const Formulario = ( { pacientes, setPacientes, paciente, setPaciente } ) => {
-    const [nombre, setNombre] = useState('');
+    const [nombre, setNombre] = useState(''); // '' es el valor por defecto
     const [propietario, setPropietario] = useState('');
     const [email, setEmail] = useState('');
     const [fecha, setFecha] = useState('');
